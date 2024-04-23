@@ -7,6 +7,8 @@ export default function AddRecipePage() {
   const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const [recipeExist, setRecipeExist] = useState(false);
   const [titleValue, setTitleValue] = useState("");
+  const [ingredientsValue, setIngredientsValue] = useState("");
+  const [cookingInstructionsValue, setCookingInstructionsValue] = useState("");
 
   // useEffect runs when shouldRunEffect changes
   useEffect(() => {
@@ -33,7 +35,11 @@ export default function AddRecipePage() {
 
       // Add the recipe to the database if it doesn't exist
       if (!recipeFound) {
-        await db.add("recipes", { title: titleValue, author: "Mormor" });
+        await db.add("recipes", {
+          title: titleValue,
+          ingredients: ingredientsValue,
+          cookingInstructions: cookingInstructionsValue,
+        });
       }
     }
 
@@ -51,6 +57,16 @@ export default function AddRecipePage() {
     setRecipeExist(false);
   }
 
+  function handleChangeIngredients(event) {
+    setIngredientsValue(event.target.value);
+    setRecipeExist(false);
+  }
+
+  function handleChangeCookingInstructions(event) {
+    setCookingInstructionsValue(event.target.value);
+    setRecipeExist(false);
+  }
+
   let titleInput = (
     <input
       type="text"
@@ -60,10 +76,28 @@ export default function AddRecipePage() {
     />
   );
 
+  let ingredientsInput = (
+    <textarea
+      required
+      value={ingredientsValue}
+      onChange={handleChangeIngredients}
+    />
+  );
+
+  let cookingInstructions = (
+    <textarea
+      required
+      value={cookingInstructionsValue}
+      onChange={handleChangeCookingInstructions}
+    />
+  );
+
   return (
     <>
       <h1>Add new recipe</h1>
       {titleInput}
+      {ingredientsInput}
+      {cookingInstructions}
       <button onClick={handleCreateClick}>Create recipe</button>
       <p>
         {recipeExist
