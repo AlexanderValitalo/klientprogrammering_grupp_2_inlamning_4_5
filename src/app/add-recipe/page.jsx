@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import createDatabase from "@/data/db";
+import openDatabase from "@/data/db";
+
+const feedbackDuration = 2000;
 
 export default function AddRecipePage() {
   const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const [recipeExist, setRecipeExist] = useState(false);
+  const [incorectInput, setIncorectInput] = useState(false);
+  const [addRecipeFeedback, setAddRecipeFeedback] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [ingredientsValue, setIngredientsValue] = useState("");
   const [cookingInstructionsValue, setCookingInstructionsValue] = useState("");
@@ -19,7 +23,7 @@ export default function AddRecipePage() {
     // Check if database exists and create it if it doesn't exist.
     // Check if the recipe already exists in the database and add it if it doesn't exist.
     async function doDBOperations() {
-      const db = await createDatabase();
+      const db = await openDatabase();
 
       const recipes = await db.getAll("recipes");
 
@@ -33,6 +37,10 @@ export default function AddRecipePage() {
         }
       });
 
+      if (recipeFound) {
+        return;
+      }
+
       // Add the recipe to the database if it doesn't exist
       if (!recipeFound) {
         await db.add("recipes", {
@@ -41,6 +49,12 @@ export default function AddRecipePage() {
           cookingInstructions: cookingInstructionsValue,
         });
       }
+      setAddRecipeFeedback(
+        true
+      ); /*************************************************************************** */
+      setTitleValue("");
+      setIngredientsValue("");
+      setCookingInstructionsValue("");
     }
 
     doDBOperations();
@@ -49,7 +63,16 @@ export default function AddRecipePage() {
   }, [shouldRunEffect]);
 
   function handleCreateClick() {
-    setShouldRunEffect(true);
+    if (titleValue != "" && ingredientsValue != "" && cookingInstructionsValue != "") {
+      setShouldRunEffect(true);
+      setIncorectInput(false);
+
+      setTimeout(() => {
+        setAddRecipeFeedback(false);
+      }, feedbackDuration);
+    } else {
+      setIncorectInput(true);
+    }
   }
 
   function handleChangeTitle(event) {
@@ -67,21 +90,10 @@ export default function AddRecipePage() {
     setRecipeExist(false);
   }
 
-  let titleInput = (
-    <input
-      type="text"
-      required
-      value={titleValue}
-      onChange={handleChangeTitle}
-    />
-  );
+  let titleInput = <input type="text" required value={titleValue} onChange={handleChangeTitle} />;
 
   let ingredientsInput = (
-    <textarea
-      required
-      value={ingredientsValue}
-      onChange={handleChangeIngredients}
-    />
+    <textarea required value={ingredientsValue} onChange={handleChangeIngredients} />
   );
 
   let cookingInstructions = (
@@ -100,10 +112,10 @@ export default function AddRecipePage() {
       {cookingInstructions}
       <button onClick={handleCreateClick}>Create recipe</button>
       <p>
-        {recipeExist
-          ? titleValue + " finns redan i kokboken, välj en annan titel."
-          : undefined}
+        {recipeExist && titleValue + " already exists in the cookbook, please choose another title"}
       </p>
+      <p>{addRecipeFeedback && titleValue + " has been added to the cookbook"}</p>
+      {incorectInput && <p>All fields must be filled in.</p>}
     </>
   );
 }

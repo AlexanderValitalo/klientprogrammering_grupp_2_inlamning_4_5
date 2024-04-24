@@ -1,6 +1,6 @@
 "use client";
 
-import createDatabase from "@/data/db";
+import openDatabase from "@/data/db";
 import { useEffect, useState } from "react";
 
 export default function DetailRecipePage({ params }) {
@@ -10,19 +10,11 @@ export default function DetailRecipePage({ params }) {
     // Check if database exists and create it if it doesn't exist.
     // Check if the recipe already exists in the database and add it if it doesn't exist.
     async function doDBOperations() {
-      let db;
-      const request = await createDatabase(); //indexedDB.open("MyDatabase", 1);
-      request.onsuccess = function (event) {
-        db = request.result;
-        const transaction = db.transaction(["recipes"]);
-        const objectStore = transaction.objectStore("recipes");
-        const request = objectStore.get(params.recipeId);
-        request.onsuccess = function (event) {
-          const recipe = request.result;
-          setDisplayedRecipe(recipe);
-          console.log(recipe);
-        };
-      };
+      const db = await openDatabase();
+      const id = parseInt(params.recipeId);
+      const taskFromDb = await db.get("recipes", id);
+
+      setDisplayedRecipe(taskFromDb);
     }
 
     doDBOperations();
@@ -30,10 +22,13 @@ export default function DetailRecipePage({ params }) {
 
   return (
     <div>
-      <h1>Recipe Detail</h1>
-      {displayedRecipe.map((recipe) => (
-        <p>{recipe.title}</p>
-      ))}
+      {displayedRecipe && (
+        <>
+          <h1>{displayedRecipe.title}</h1>
+          <p>{displayedRecipe.ingredients}</p>
+          <p>{displayedRecipe.cookingInstructions}</p>
+        </>
+      )}
     </div>
   );
 }
