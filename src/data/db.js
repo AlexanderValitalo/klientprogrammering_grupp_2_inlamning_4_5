@@ -1,10 +1,11 @@
-import { openDB } from 'idb';
+import { openDB } from "idb";
 
-async function createDatabase() {
-  const db = await openDB('MyDatabase', 1, {
+// Function to open or create the IndexedDB database
+async function openDatabase() {
+  const db = await openDB("MyDatabase", 1, {
     upgrade(db) {
-      if (!db.objectStoreNames.contains('recipes')) {
-        db.createObjectStore('recipes', { keyPath: 'id', autoIncrement: true });
+      if (!db.objectStoreNames.contains("recipes")) {
+        db.createObjectStore("recipes", { keyPath: "id", autoIncrement: true });
       }
     },
   });
@@ -12,4 +13,5 @@ async function createDatabase() {
   return db;
 }
 
-export default createDatabase;
+// Export the openDatabase function
+export default openDatabase;
