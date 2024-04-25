@@ -8,26 +8,28 @@ export default function SearchRecipePage() {
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  //Filters and displays recipes based on the current search term
   useEffect(() => {
-    // Check if the recipe already exists in the database and add it if it doesn't exist.
     async function doDBOperations() {
+      //Retrieve all recipes from the indexedDB database
       const db = await openDatabase();
-
       const recipes = await db.getAll("recipes");
 
+      //filter recipes based on the search input
       const filteredRecipes = recipes.filter(
         (recipe) =>
           recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           recipe.ingredients.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      setDisplayedRecipes(filteredRecipes);
-      sessionStorage.setItem("search", searchTerm);
+      setDisplayedRecipes(filteredRecipes); //update displayed recipes with filtered results
+      sessionStorage.setItem("search", searchTerm); //store the search term in session storage
     }
 
     doDBOperations();
-  }, [searchTerm]);
+  }, [searchTerm]); //run the useEffect when the search term changes
 
+  //Set the search field from sessionStorage
   useEffect(() => {
     const search = sessionStorage.getItem("search");
     if (search) {
@@ -35,12 +37,13 @@ export default function SearchRecipePage() {
     }
   }, []);
 
+  //Set the search term state when the search term changes
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
   };
 
-  //Display search box and list of recipes
+  //JSX rendering of component
   return (
     <>
       <h1>All Recipes</h1>
