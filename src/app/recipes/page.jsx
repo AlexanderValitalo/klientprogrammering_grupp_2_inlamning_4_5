@@ -5,32 +5,31 @@ import openDatabase from "@/data/db";
 import Link from "next/link";
 
 export default function SearchRecipePage() {
-  //const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // useEffect runs when shouldRunEffect changes
+  //Filters and displays recipes based on the current search term
   useEffect(() => {
-    // Check if database exists and create it if it doesn't exist.
-    // Check if the recipe already exists in the database and add it if it doesn't exist.
     async function doDBOperations() {
+      //Retrieve all recipes from the indexedDB database
       const db = await openDatabase();
-
       const recipes = await db.getAll("recipes");
 
+      //filter recipes based on the search input
       const filteredRecipes = recipes.filter(
         (recipe) =>
           recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           recipe.ingredients.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      setDisplayedRecipes(filteredRecipes);
-      sessionStorage.setItem("search", searchTerm);
+      setDisplayedRecipes(filteredRecipes); //update displayed recipes with filtered results
+      sessionStorage.setItem("search", searchTerm); //store the search term in session storage
     }
 
     doDBOperations();
-  }, [searchTerm]);
+  }, [searchTerm]); //run the useEffect when the search term changes
 
+  //Set the search field from sessionStorage
   useEffect(() => {
     const search = sessionStorage.getItem("search");
     if (search) {
@@ -38,11 +37,13 @@ export default function SearchRecipePage() {
     }
   }, []);
 
+  //Set the search term state when the search term changes
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
   };
 
+  //JSX rendering of component
   return (
     <>
       <h1>All Recipes</h1>
@@ -60,6 +61,7 @@ export default function SearchRecipePage() {
             </Link>
           </li>
         ))}
+        {displayedRecipes.length === 0 && <p>{searchTerm} not found</p>}
       </ul>
     </>
   );
