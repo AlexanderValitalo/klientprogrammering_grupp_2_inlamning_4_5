@@ -5,13 +5,10 @@ import openDatabase from "@/data/db";
 import Link from "next/link";
 
 export default function SearchRecipePage() {
-  //const [shouldRunEffect, setShouldRunEffect] = useState(false);
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // useEffect runs when shouldRunEffect changes
   useEffect(() => {
-    // Check if database exists and create it if it doesn't exist.
     // Check if the recipe already exists in the database and add it if it doesn't exist.
     async function doDBOperations() {
       const db = await openDatabase();
@@ -43,6 +40,7 @@ export default function SearchRecipePage() {
     setSearchTerm(term);
   };
 
+  //Display search box and list of recipes
   return (
     <>
       <h1>All Recipes</h1>
@@ -60,6 +58,7 @@ export default function SearchRecipePage() {
             </Link>
           </li>
         ))}
+        {displayedRecipes.length === 0 && <p>{searchTerm} not found</p>}
       </ul>
     </>
   );

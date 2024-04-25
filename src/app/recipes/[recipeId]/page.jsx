@@ -7,8 +7,6 @@ export default function DetailRecipePage({ params }) {
   const [displayedRecipe, setDisplayedRecipe] = useState([]);
 
   useEffect(() => {
-    // Check if database exists and create it if it doesn't exist.
-    // Check if the recipe already exists in the database and add it if it doesn't exist.
     async function doDBOperations() {
       const db = await openDatabase();
       const id = parseInt(params.recipeId);

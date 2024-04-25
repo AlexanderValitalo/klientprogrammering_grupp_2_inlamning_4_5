@@ -20,7 +20,7 @@ export default function Home() {
 
       <div className={styles.center}>
         <p className={styles.description}>
-          An innovative and customizable training planning application
+        Welcome to our Recipe Collection! Here, you can store all your favorite recipes with ease. Simply add the ingredients and cooking instructions, and you're all set! Use the search feature to quickly find any recipe you've saved. Happy cooking!
         </p>
       </div>
     </>

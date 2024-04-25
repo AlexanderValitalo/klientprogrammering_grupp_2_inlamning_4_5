@@ -78,7 +78,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .center::before {
@@ -149,7 +149,7 @@
   }
 
   .center {
-    padding: 8rem 0 6rem;
+    padding: 2rem 0;
   }
 
   .center::before {
@@ -215,10 +215,6 @@
   .vercelLogo {
     filter: invert(1);
   }
-
-  .logo {
-    filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-  }
 }
 
 @keyframes rotate {
@@ -229,3 +225,4 @@
     transform: rotate(0deg);
   }
 }
+
