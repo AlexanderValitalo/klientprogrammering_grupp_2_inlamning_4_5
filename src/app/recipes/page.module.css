@@ -1,0 +1,34 @@
+.input{
+  width: 50%;
+  height: 1.6rem;
+  border-radius: var(--border-radius);
+  padding: 0.4rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-mono);
+}
+
+.ul{
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.li{
+  background: rgba(var(--card-rgb), 0.1);
+  border: 1px solid rgba(var(--card-border-rgb), 0.15);
+  border-radius: var(--border-radius);
+  min-width: 20%;
+  text-align: center;
+}
+
+.li:hover{
+    background: rgba(var(--card-rgb), 0.5);
+    border: 1px solid rgba(var(--card-border-rgb)); 
+}
+
+.h2{
+  font-family: var(--font-mono);
+  padding: 1rem;
+}

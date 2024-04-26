@@ -6,6 +6,7 @@ My Cookbook is a web application that allows users to store their favorite recip
 
 ## Functional Requirements
 
-1. Users can handle recipes in the application, with ingredients and cooking instructions.
+1. Users can add recipes in the application, with ingredients and cooking instructions.
 2. Users can search through their recipes easily.
-3. ...
+3. Users can read individual recipes.
+4. ...
