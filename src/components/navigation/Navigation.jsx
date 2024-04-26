@@ -12,7 +12,7 @@ const LINKS = [
 // Description: Represents the navigation menu of the application, containing links to different pages.
 export default function Navigation() {
   return (
-    <div className={styles.grid}>
+    <div className={styles.nav}>
       {LINKS.map((l) => (
         <NavigationLink key={l.href} {...l} />
       ))}

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import openDatabase from "@/data/db";
+import styles from "./page.module.css";
 
 const feedbackDuration = 3000;
 let addedTitle = "";
@@ -68,14 +69,14 @@ export default function AddRecipePage() {
     <>
       <h1>Add new recipe</h1>
 
-      <form onSubmit={handleCreateClick} onChange={handleChangeForm}>
-        <label className="label-style" htmlFor="title">Title:</label>
+      <form className={styles.form} onSubmit={handleCreateClick} onChange={handleChangeForm}>
+        <label className="label-style" htmlFor="title">Title</label>
         <input type="text" id="title" name="title" required value={formData.title} onChange={handleChangeForm} /> 
 
-        <label className="label-style" htmlFor="ingredients">Ingredients:</label>
+        <label className="label-style" htmlFor="ingredients">Ingredients</label>
         <textarea id="ingredients" name="ingredients" required value={formData.ingredients} onChange={handleChangeForm} />
 
-        <label className="label-style" htmlFor="cookingInstructions">Cooking instructions:</label>
+        <label className="label-style" htmlFor="cookingInstructions">Cooking instructions</label>
         <textarea id="cookingInstructions" name="cookingInstructions" required  value={formData.cookingInstructions} onChange={handleChangeForm} />
 
         <button type="submit">Create recipe</button>
