@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import openDatabase from "@/data/db";
 import Link from "next/link";
+import styles from "./page.module.css";
 
 export default function SearchRecipePage() {
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
@@ -47,17 +48,17 @@ export default function SearchRecipePage() {
   return (
     <>
       <h1>All Recipes</h1>
-      <input
+      <input className={styles.input}
         type="text"
         placeholder="Search recipes..."
         value={searchTerm}
         onChange={handleSearch}
       />
-      <ul>
+      <ul className={styles.ul}>
         {displayedRecipes.map((recipe) => (
-          <li key={recipe.id}>
+          <li className={styles.li} key={recipe.id}>
             <Link href={"/recipes/" + recipe.id}>
-              <h2>{recipe.title}</h2>
+              <h2 className={styles.h2}>{recipe.title}</h2>
             </Link>
           </li>
         ))}
